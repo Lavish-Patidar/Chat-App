@@ -13,7 +13,7 @@ const PORT = process.env.PORT;
 
 app.use(
   cors({
-    origin: ["https://chat-app-api-mu-gules.vercel.app", "https://chat-app-zeta-woad-50.vercel.app/login"],
+    origin: ["https://chat-app-api-mu-gules.vercel.app", "https://chat-app-zeta-woad-50.vercel.app"],
     credentials: true,
   })
 );
