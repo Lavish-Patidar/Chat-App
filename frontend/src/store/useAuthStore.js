@@ -48,6 +48,7 @@ export const useAuthStore = create((set, get) => ({
       set({ authUser: res.data });
       // Store the token in local storage
       localStorage.setItem("token", res.data.token);
+      console.log("Token stored:", res.data.token); // Log the stored token
       toast.success("Logged in successfully");
       get().connectSocket();
     } catch (error) {
