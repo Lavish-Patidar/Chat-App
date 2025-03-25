@@ -32,6 +32,7 @@ export const useAuthStore = create((set, get) => ({
     try {
       const res = await axiosInstance.post("/auth/signup", data);
       set({ authUser: res.data });
+      localStorage.setItem("token", res.data.token); // Store the token in local storage
       toast.success("Account created successfully");
       get().connectSocket();
     } catch (error) {
@@ -46,9 +47,7 @@ export const useAuthStore = create((set, get) => ({
     try {
       const res = await axiosInstance.post("/auth/login", data);
       set({ authUser: res.data });
-      // Store the token in local storage
-      localStorage.setItem("token", res.data.token);
-      console.log("Token stored:", res.data.token); // Log the stored token
+      localStorage.setItem("token", res.data.token); // Store the token in local storage
       toast.success("Logged in successfully");
       get().connectSocket();
     } catch (error) {
@@ -61,6 +60,7 @@ export const useAuthStore = create((set, get) => ({
   logout: async () => {
     try {
       await axiosInstance.post("/auth/logout");
+      localStorage.removeItem("token"); // Remove the token from local storage
       set({ authUser: null });
       toast.success("Logged out successfully");
       get().disconnectSocket();

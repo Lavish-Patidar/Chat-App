@@ -13,7 +13,12 @@ export const useChatStore = create((set, get) => ({
   getUsers: async () => {
     set({ isUsersLoading: true });
     try {
-      const res = await axiosInstance.get("/messages/users");
+      const token = localStorage.getItem("token"); // Retrieve the token
+      const res = await axiosInstance.get("/messages/users", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the headers
+        },
+      });
       set({ users: res.data });
     } catch (error) {
       toast.error(error.response.data.message);
@@ -33,10 +38,16 @@ export const useChatStore = create((set, get) => ({
       set({ isMessagesLoading: false });
     }
   },
+
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     try {
-      const res = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData);
+      const token = localStorage.getItem("token"); // Retrieve the token
+      const res = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the headers
+        },
+      });
       set({ messages: [...messages, res.data] });
     } catch (error) {
       toast.error(error.response.data.message);
